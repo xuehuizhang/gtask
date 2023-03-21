@@ -1,0 +1,9 @@
+tasks:
+  print123:
+    name: print123
+    spec: "@every 1m"
+    stop: true
+  curbaidu:
+    name: curbaidu
+    spec: "@every 2m"
+    stop: false
