@@ -1,0 +1,177 @@
+definitions:
+  job.JobAddBo:
+    properties:
+      cate:
+        type: integer
+      method:
+        type: string
+      name:
+        type: string
+      params:
+        type: string
+      spec:
+        type: string
+      url:
+        type: string
+    type: object
+  job.JobDelBo:
+    properties:
+      name:
+        type: string
+    type: object
+  job.JobInfoVo:
+    properties:
+      cate:
+        type: integer
+      entry_id:
+        type: integer
+      method:
+        type: string
+      name:
+        type: string
+      params:
+        type: string
+      spec:
+        type: string
+      stop:
+        type: boolean
+      url:
+        type: string
+    type: object
+  job.JobRunBo:
+    properties:
+      name:
+        type: string
+    type: object
+  job.JobStopBo:
+    properties:
+      name:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/job/add:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/job.JobAddBo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: 新增Job
+      tags:
+      - JOB
+  /api/job/del:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/job.JobDelBo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: 删除Job
+      tags:
+      - JOB
+  /api/job/info:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: job名称
+        in: query
+        name: name
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/job.JobInfoVo'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Job详情
+      tags:
+      - JOB
+  /api/job/run:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/job.JobRunBo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: 运行Job
+      tags:
+      - JOB
+  /api/job/stop:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/job.JobStopBo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: 暂停Job
+      tags:
+      - JOB
+swagger: "2.0"

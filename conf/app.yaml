@@ -1,9 +1,15 @@
-tasks:
-  print123:
-    name: print123
-    spec: "@every 1m"
-    stop: true
-  curbaidu:
-    name: curbaidu
-    spec: "@every 2m"
-    stop: false
+rules:
+#  print123:
+#    name: print123
+#    spec: "@every 1m"
+#    cate: 0
+#    url: "https://www.baidu.com"
+#    method: "GET"
+#    params: "{\"name\":\"111\",\"age\":10}"
+#  curbaidu:
+#    name: curbaidu
+#    spec: "@every 2m"
+#    cate: 0
+#    url: "https://www.baidu.com"
+#    method: "POST"
+#    params: "{\"name\":\"111\",\"age\":10}"

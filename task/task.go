@@ -1,56 +1,57 @@
 package task
 
-import "C"
-import (
-	"codego/gtask/setting"
-	"fmt"
-	"github.com/robfig/cron/v3"
-)
+import "github.com/robfig/cron/v3"
 
 var (
-	c *cron.Cron
+	//global task
+	GT *Task
 )
 
-type TaskJob struct {
-	Name     string           `json:"name"`
-	TaskFunc setting.TaskFunc `json:"task_func"`
-}
-
-func (t *TaskJob) Run() {
-	t.TaskFunc()
+type Task struct {
+	GCron    *GCron    `json:"g_cron"`
+	JobPool  *JobPool  `json:"job_pool"`
+	RulePool *RulePool `json:"rule_pool"`
 }
 
 func InitTask() {
-	c = cron.New()
-
-	for _, val := range setting.TaskMap {
-		v := val
-
-		f := func() {
-			fmt.Println(v.Name)
-		}
-
-		job := &TaskJob{
-			Name:     v.Name,
-			TaskFunc: f,
-		}
-
-		entryId, _ := c.AddJob(v.Spec, job)
-
-		rule := setting.TaskMap[v.Name]
-		rule.EntryId = entryId
-		rule.TaskFunc = f
-		setting.TaskMap[v.Name] = rule
+	GT = &Task{
+		GCron:    InitGCron(),
+		JobPool:  InitJobPool(),
+		RulePool: InitRulePool(),
 	}
 
-	c.Run()
+	//初始化Task并运行
+	GT.GCron.Run()
 }
 
-func Add(rule setting.TaskRule) cron.EntryID {
-	entryId, _ := c.AddFunc(rule.Spec, rule.TaskFunc)
-	return entryId
+func GetJob(name string) (*Job, error) {
+	return GT.JobPool.Get(name)
 }
 
-func Remove(entryId cron.EntryID) {
-	c.Remove(entryId)
+func DelJob(name string) error {
+	return GT.JobPool.Del(name)
+}
+
+func SaveJob(j *Job) {
+	GT.JobPool.SaveOrUpdate(j)
+}
+
+func GetRule(name string) (*Rule, error) {
+	return GT.RulePool.Get(name)
+}
+
+func DelRule(name string) error {
+	return GT.RulePool.Del(name)
+}
+
+func SaveRule(r *Rule) {
+	GT.RulePool.SaveOrUpdate(r)
+}
+
+func SaveCronJob(j *Job) (cron.EntryID, error) {
+	return GT.GCron.AddJob(j)
+}
+
+func DelCronJob(id cron.EntryID) {
+	GT.GCron.Del(id)
 }
