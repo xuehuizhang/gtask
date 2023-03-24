@@ -5,7 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func InitTaskRouter(r *gin.RouterGroup) {
+func initJobRouter(r *gin.RouterGroup) {
 	t := r.Group("/job")
 	{
 		t.POST("/add", v1.Add)

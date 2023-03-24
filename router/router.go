@@ -12,5 +12,15 @@ func InitRouter(r *gin.Engine) {
 
 	g := r.Group("/api")
 
-	InitTaskRouter(g)
+	//Job
+	initJobRouter(g)
+
+	//租户
+	initTenantRouter(g)
+
+	//service
+	initServiceRoute(g)
+
+	//namespace
+	initNamespaceRoute(g)
 }

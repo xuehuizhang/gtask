@@ -14,7 +14,7 @@ var (
 
 func init() {
 	//执行main之前 先执行init方法
-	dataSourceName := fmt.Sprintf("root:Zhangxh106!@tcp(101.35.196.142:61166)/goblog?charset=utf8&loc=%s&parseTime=true", url.QueryEscape("Asia/Shanghai"))
+	dataSourceName := fmt.Sprintf("root:123456@tcp(101.42.90.17:3306)/gtask?charset=utf8&loc=%s&parseTime=true", url.QueryEscape("Asia/Shanghai"))
 	config := &gorm.Config{}
 	db, err := gorm.Open(mysql.Open(dataSourceName), config)
 	if err != nil {

@@ -3,6 +3,11 @@ package app
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
+)
+
+const (
+	DefaultPageSize = 10
 )
 
 type AppG struct {
@@ -31,4 +36,22 @@ func (a AppG) ResponseCode(code int, msg string, data interface{}) {
 		"msg":  msg,
 		"data": data,
 	})
+}
+
+func (a AppG) GetPage() (int, int) {
+	pageNoStr := a.C.Query("pageNo")
+	pageSizeStr := a.C.Query("pageSize")
+
+	pageNo, err := strconv.Atoi(pageNoStr)
+	if err != nil {
+		pageNo = 1
+	}
+
+	pageSize, err := strconv.Atoi(pageSizeStr)
+	if err != nil {
+		pageSize = DefaultPageSize
+	}
+
+	offSet := (pageNo - 1) * pageSize
+	return offSet, pageSize
 }

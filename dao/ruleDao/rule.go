@@ -61,3 +61,12 @@ func Count(sql string, params []interface{}) (int64, error) {
 	}
 	return count, nil
 }
+
+func Page(selectField []string, sql string, params []interface{}, order string, offset, pageSize int) ([]*model.Rule, error) {
+	var posts []*model.Rule
+	err := dao.TDb.Select(selectField).Where(sql, params...).Order(order).Offset(offset).Limit(pageSize).Find(&posts).Error
+	if err != nil {
+		return posts, err
+	}
+	return posts, err
+}

@@ -18,12 +18,16 @@ func UpdateFiled(filedName string, value interface{}) error {
 	return dao.TDb.Model(&model.Service{}).Update(filedName, value).Error
 }
 
-func UpdateMap(m map[string]interface{}) error {
-	return dao.TDb.Model(&model.Service{}).Updates(m).Error
+func UpdateMap(id int64, m map[string]interface{}) error {
+	return dao.TDb.Model(&model.Service{}).Where("id=?", id).Updates(m).Error
 }
 
 func UpdatesObj(c *model.Service) error {
 	return dao.TDb.Model(&model.Service{}).Updates(c).Error
+}
+
+func SaveOrUpdate(service *model.Service) error {
+	return dao.TDb.Save(service).Error
 }
 
 func GetOne(id int64) (*model.Service, error) {
@@ -60,4 +64,13 @@ func Count(sql string, params []interface{}) (int64, error) {
 		return 0, err
 	}
 	return count, nil
+}
+
+func Page(selectField []string, sql string, params []interface{}, order string, offset, pageSize int) ([]*model.Service, error) {
+	var posts []*model.Service
+	err := dao.TDb.Select(selectField).Where(sql, params...).Order(order).Offset(offset).Limit(pageSize).Find(&posts).Error
+	if err != nil {
+		return posts, err
+	}
+	return posts, err
 }

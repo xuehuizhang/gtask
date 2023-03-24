@@ -48,6 +48,88 @@ definitions:
       name:
         type: string
     type: object
+  namespace.NamespaceDelBo:
+    properties:
+      id:
+        type: integer
+    type: object
+  namespace.NamespaceInfoVo:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  namespace.NamespaceListVo:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  namespace.NamespaceSaveBo:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      service_id:
+        type: integer
+    type: object
+  service.ServiceDelBo:
+    properties:
+      id:
+        type: integer
+    type: object
+  service.ServiceInfoVo:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  service.ServiceListVo:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  service.ServiceSaveBo:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      tenant_id:
+        type: integer
+    type: object
+  tenant.TenantDelBo:
+    properties:
+      id:
+        type: integer
+    type: object
+  tenant.TenantInfoVo:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  tenant.TenantListVo:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  tenant.TenantSaveBo:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
 info:
   contact: {}
 paths:
@@ -174,4 +256,319 @@ paths:
       summary: 暂停Job
       tags:
       - JOB
+  /api/namespace/del:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/namespace.NamespaceDelBo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: 删除Namespace
+      tags:
+      - namespace
+  /api/namespace/info:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: namespace名称
+        in: query
+        name: id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/namespace.NamespaceInfoVo'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: namespace详情
+      tags:
+      - namespace
+  /api/namespace/list:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: namespace名称
+        in: query
+        name: name
+        type: string
+      - description: 页码
+        in: query
+        name: pageNo
+        required: true
+        type: integer
+      - description: 每页数量
+        in: query
+        name: pageSize
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/namespace.NamespaceListVo'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: namespace详情
+      tags:
+      - namespace
+  /api/namespace/save:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/namespace.NamespaceSaveBo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: 保存namespace
+      tags:
+      - namespace
+  /api/service/del:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/service.ServiceDelBo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: 删除服务
+      tags:
+      - 服务
+  /api/service/info:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 服务id
+        in: query
+        name: id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/service.ServiceInfoVo'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: 服务详情
+      tags:
+      - 服务
+  /api/service/list:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 服务名称
+        in: query
+        name: name
+        type: string
+      - description: 页码
+        in: query
+        name: pageNo
+        required: true
+        type: integer
+      - description: 每页数量
+        in: query
+        name: pageSize
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/service.ServiceListVo'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: 服务列表
+      tags:
+      - 服务
+  /api/service/save:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/service.ServiceSaveBo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: 保存服务
+      tags:
+      - 服务
+  /api/tenant/del:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/tenant.TenantDelBo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: 删除租户
+      tags:
+      - 租户
+  /api/tenant/info:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 租户id
+        in: query
+        name: id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tenant.TenantInfoVo'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Job详情
+      tags:
+      - 租户
+  /api/tenant/list:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 租户名称
+        in: query
+        name: name
+        type: string
+      - description: 页码
+        in: query
+        name: pageNo
+        required: true
+        type: integer
+      - description: 每页数量
+        in: query
+        name: pageSize
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tenant.TenantListVo'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Job列表
+      tags:
+      - 租户
+  /api/tenant/save:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/tenant.TenantSaveBo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: 保存租户
+      tags:
+      - 租户
 swagger: "2.0"

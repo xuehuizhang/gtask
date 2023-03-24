@@ -1,17 +1,17 @@
 package tenantDao
 
 import (
-	_ "codego/com.yiqibishe/dao_v2"
-	"codego/com.yiqibishe/model"
+	"codego/gtask/model"
 	"fmt"
 	"testing"
 )
 
 func TestAdd(t *testing.T) {
-	err := Add(&model.Nav{
-		Name:   "Java",
-		Url:    "/java",
-		Status: 1,
+	err := Add(&model.Tenant{
+		Name: "Java",
+		Base: model.Base{
+			Status: 1,
+		},
 	})
 	if err != nil {
 		fmt.Println(err)

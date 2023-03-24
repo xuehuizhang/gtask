@@ -14,16 +14,12 @@ func Delete(id int64) error {
 	return dao.TDb.Delete(&model.Tenant{}, id).Error
 }
 
-func UpdateFiled(filedName string, value interface{}) error {
-	return dao.TDb.Model(&model.Tenant{}).Update(filedName, value).Error
+func UpdateMap(id int64, m map[string]interface{}) error {
+	return dao.TDb.Model(&model.Tenant{}).Where("id=?", id).Updates(m).Error
 }
 
-func UpdateMap(m map[string]interface{}) error {
-	return dao.TDb.Model(&model.Tenant{}).Updates(m).Error
-}
-
-func UpdatesObj(c *model.Tenant) error {
-	return dao.TDb.Model(&model.Tenant{}).Updates(c).Error
+func SaveOrUpdate(tenant *model.Tenant) error {
+	return dao.TDb.Save(tenant).Error
 }
 
 func GetOne(id int64) (*model.Tenant, error) {
@@ -32,6 +28,7 @@ func GetOne(id int64) (*model.Tenant, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	return Tenant, nil
 }
 
@@ -60,4 +57,13 @@ func Count(sql string, params []interface{}) (int64, error) {
 		return 0, err
 	}
 	return count, nil
+}
+
+func Page(selectField []string, sql string, params []interface{}, order string, offset, pageSize int) ([]*model.Tenant, error) {
+	var posts []*model.Tenant
+	err := dao.TDb.Select(selectField).Where(sql, params...).Order(order).Offset(offset).Limit(pageSize).Find(&posts).Error
+	if err != nil {
+		return posts, err
+	}
+	return posts, err
 }

@@ -18,12 +18,16 @@ func UpdateFiled(filedName string, value interface{}) error {
 	return dao.TDb.Model(&model.Namespace{}).Update(filedName, value).Error
 }
 
-func UpdateMap(m map[string]interface{}) error {
-	return dao.TDb.Model(&model.Namespace{}).Updates(m).Error
+func UpdateMap(id int64, m map[string]interface{}) error {
+	return dao.TDb.Model(&model.Namespace{}).Where("id=?", id).Updates(m).Error
 }
 
 func UpdatesObj(c *model.Namespace) error {
 	return dao.TDb.Model(&model.Namespace{}).Updates(c).Error
+}
+
+func SaveOrUpdate(namespace *model.Namespace) error {
+	return dao.TDb.Save(namespace).Error
 }
 
 func GetOne(id int64) (*model.Namespace, error) {
@@ -60,4 +64,13 @@ func Count(sql string, params []interface{}) (int64, error) {
 		return 0, err
 	}
 	return count, nil
+}
+
+func Page(selectField []string, sql string, params []interface{}, order string, offset, pageSize int) ([]*model.Namespace, error) {
+	var posts []*model.Namespace
+	err := dao.TDb.Select(selectField).Where(sql, params...).Order(order).Offset(offset).Limit(pageSize).Find(&posts).Error
+	if err != nil {
+		return posts, err
+	}
+	return posts, err
 }
